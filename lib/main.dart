@@ -1,26 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:task_app/src/models/task_model.dart';
+import 'src/blocs/bloc_exports.dart';
+import 'src/screens/tasks_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  BlocOverrides.runZoned(() => runApp(const AppState()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class AppState extends StatelessWidget {
+  const AppState({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => TasksBloc(),
+      child: const App(),
+    );
+  }
+}
+
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Task App',
+      title: 'Flutter Tasks App',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        appBar: AppBar(),
-        body: const Center(
-            child: Text(
-          'TASK APPLICATION',
-        )),
-      ),
+      home: TasksScreen(),
     );
   }
 }
